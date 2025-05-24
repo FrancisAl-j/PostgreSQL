@@ -10,5 +10,6 @@ export const sequelize = new Sequelize(
     port: 5432,
     dialect: "postgres",
     logging: false,
+    schema: "public",
   }
 );
