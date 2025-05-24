@@ -28,7 +28,7 @@ export const createUser = async (req: Request, res: Response) => {
       password: hashedPassword,
     };
 
-    await User.create(user);
+    await User.create(user); // insert a data in table
 
     res.status(201).json({ message: "Account created successfully." });
   } catch (error) {
@@ -41,9 +41,23 @@ export const createUser = async (req: Request, res: Response) => {
 // Fetching all Users
 export const getUsers = async (req: Request, res: Response) => {
   try {
-    const users = await User.findAll();
+    const users = await User.findAll(); // Finds all the users
 
     res.status(200).json(users);
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(500).json({ message: error.message });
+    }
+  }
+};
+
+// Fetching specific user
+export const getUser = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  try {
+    const user = await User.findByPk(id);
+
+    res.status(200).json(user);
   } catch (error) {
     if (error instanceof Error) {
       res.status(500).json({ message: error.message });
