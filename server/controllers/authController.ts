@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import bcrypt, { hashSync } from "bcryptjs";
 import User from "../models/User";
 
+// Creating an Account/User
 export const createUser = async (req: Request, res: Response) => {
   const { name, email, password } = req.body;
   if (!name) {
@@ -30,6 +31,19 @@ export const createUser = async (req: Request, res: Response) => {
     await User.create(user);
 
     res.status(201).json({ message: "Account created successfully." });
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(500).json({ message: error.message });
+    }
+  }
+};
+
+// Fetching all Users
+export const getUsers = async (req: Request, res: Response) => {
+  try {
+    const users = await User.findAll();
+
+    res.status(200).json(users);
   } catch (error) {
     if (error instanceof Error) {
       res.status(500).json({ message: error.message });
